@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Retail Store</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+  	<script src="js/bootstrap.min.js"></script>
+</head>
+<body>
+	
+	<nav class="navbar navbar-default navbar-fixed-top">
+	    <div class="container">
+	      <div class="navbar-header">
+	        <a class="navbar-brand" href="index.html">Project name</a>
+	      </div>
+	      <div class="collapse navbar-collapse navbarCollapse">
+	        <ul class="nav navbar-nav">
+	          <li class="active"><a href="index.html">Scheduled</a></li>
+	          <li ><a href="Stock.html">Stock Management</a></li>
+	        </ul>
+	      </div>
+	    </div>
+	 </nav>
+
+
+    <div class="container">
+		<div class="page-header"><br>
+		  <h1>Retail Store</h1>
+
+		  <form class="form-horizontal" name="form" id="form" method="post">
+		    <div class="form-group">
+		      <label class="control-label col-sm-2" for="programName">Program Name:</label>
+		      <div class="col-sm-10">
+	            <select required="required" id="program"  class="form-control">
+	            	<option value="" selected="selected">Select Program Name</option>
+	                <option value="Automatically Stock Management">Automatically Stock Management</option>
+	            </select>
+	          </div>
+	        </div>
+	        <div class="form-group">
+		      <label class="control-label col-sm-2" for="store">Store :</label>
+		      <div class="col-sm-10">
+		        <select required="required" class="form-control" id="site">
+	            	<option value="" selected="selected">Select Store</option>
+	                <option value="1011">1011 - RANGSIT</option>
+	                <option value="1012">1012 - SATHORN</option>
+	                <option value="1013">1013 - CHEANGWATTANA</option>
+	            </select>
+		      </div>
+		    </div>
+		    <div class="form-group">        
+		      <div class="col-sm-offset-2 col-sm-2">
+		        <button type="button" class="btn btn-default" id="button" onclick="myFunction()">Execute</button>
+		      </div>
+		    </div>
+	      </form>
+
+	      <div class="table-responsive">
+		  	<table class="table" >
+		  		<tr>
+				    <th >Program Name</th>
+				    <th>Store</th> 
+				    <th>Date & Time</th>
+				    <th>Status</th>
+			    </tr>
+			    <tr class="success">
+			    	<td id="demoA"></td>
+			    	<td id="demo"></td>
+			    	<td id="date"></td>
+			    	<td id="demoB"></td>
+			    </tr>
+		  	</table>
+		  </div>		     
+		</div>
+	</div>
+
+	<script>
+
+		function myFunction() {
+		    var x = document.getElementById("site").value;
+		    document.getElementById("demo").innerHTML = x;
+
+		    var y = document.getElementById("program").value;
+		    document.getElementById("demoA").innerHTML = y;
+
+		    document.getElementById("demoB").innerHTML = 'Success!';
+
+		    n =  new Date();
+			y = n.getFullYear();
+			m = n.getMonth() + 1;
+			d = n.getDate();
+			h = n.getHours();
+			mi = n.getMinutes();
+			s = n.getSeconds();
+			document.getElementById("date").innerHTML = d + "/" + m + "/" + y + " " + h + ":" + mi + ":" + s;
+
+			console.log(x);
+		}
+
+	    $(document).ready(function(){
+
+	        $("#button").on("click", function(){
+	        	console.log($("#site").val());
+	        	var jsonObj = {"site":$("#site").val()}
+		        	$.ajax({
+			            cache: false,
+			            url: "save_register.php",
+			            type: "post",
+			            dataType: "JSON",
+			            data: jsonObj,
+
+			            success:function(result){
+
+			                console.log(result); 
+
+			            }
+
+			        });
+	        });
+	    });
+
+
+	</script>
+
+</body>
+</html>

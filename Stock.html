@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Retail Store</title>
+	<meta charset="UTF-8">
+	 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	 <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<link rel="stylesheet" href="css/bootstrap.min.css">
+  	<script src="js/jquery.min.js"></script>
+  	<script src="js/bootstrap.min.js"></script>
+  	<style>
+		.jumbotron {
+		    background-color: black;
+		    max-height: 200;
+		}
+	</style>
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-fixed-top">
+	    <div class="container">
+	      <div class="navbar-header">
+	        <a class="navbar-brand" href="index.html">Project name</a>
+	      </div>
+	      <div class="collapse navbar-collapse navbarCollapse">
+	        <ul class="nav navbar-nav">
+	          <li><a href="index.html">Scheduled</a></li>
+	          <li class="active"><a href="Stock.html">Stock Management</a></li>
+	        </ul>
+	      </div>
+	    </div>
+	 </nav>
+    <div class="container">
+		<div class="page-header"><br>
+		  <h1>Retail Store</h1>
+		  <form class="form-horizontal" method="post" action="<?=$_SERVER['SCRIPT_NAME'];?>">
+	        <div class="form-group">
+		      <label class="control-label col-sm-2" for="store">Store :</label>
+		      <div class="col-sm-10">
+		        <select required="required" class="form-control" id="siteSearch" name="siteSearch">
+	            	<option value="" selected="selected">Select Store</option>
+	                <option value="1011">1011 - RANGSIT</option>
+	                <option value="1012">1012 - SATHORN</option>
+	                <option value="1013">1013 - CHEANGWATTANA</option>
+	            </select>
+		      </div>
+		    </div>
+		    <div class="form-group">
+		      <label class="control-label col-sm-2" for="store">Item Code :</label>
+		      <div class="col-sm-10">
+		        <input type="text" name="itemCode" class="form-control" id="itemCode">
+		      </div>
+		    </div>
+		    <div class="form-group">        
+		      <div class="col-sm-offset-2 col-sm-10">
+		        <button type="button" class="btn btn-default" value="search" id="button">Search</button>
+		      </div>
+		    </div>
+	      </form>
+
+	       
+	       <div class="col-md-12">
+			 <table class="table table-bordered" id="tableId">
+				 <thead>
+					<tr>
+					    <th><div align="center">stock date</div></th>
+					    <th><div align="center">site code</div></th> 
+					    <th><div align="center">item code</div></th>
+					    <th><div align="center">before Qty.</div></th>
+					    <th><div align="center">Receive</div></th>
+					    <th><div align="center">Sell</div></th>
+					    <th><div align="center">Adjust</div></th>
+					    <th><div align="center">Qty.</div></th>
+				    </tr>
+				 </thead>
+				 <tbody>
+
+				 </tbody>
+			 </table>
+			</div>
+	     </div>
+	</div>
+	      <script>
+		    $(document).ready(function(){
+	
+		        $("#button").on("click", function(){
+		        	$("#tableId tbody tr").remove();
+		        	var jsonObj = {"siteSearch":$("#siteSearch").val(),"itemCode":$("#itemCode").val()}
+			        	$.ajax({
+				            url: "search.php",
+				            type: "post",
+				            data: jsonObj,
+				            success:function(data){
+
+				            	data.map(x => {
+				            		var newRowContent = `<tr>
+					            		<td>${x.stock_date}</td>
+					            		<td>${x.site_code}</td>
+					            		<td>${x.item_code}</td>
+					            		<td>${x.bfqty}</td>
+					            		<td>${x.receive}</td>
+					            		<td>${x.sell}</td>
+					            		<td>${x.adjust}</td>
+					            		<td>${x.qty}</td>
+				            		</tr>`;
+
+					                $("#tableId tbody").append(newRowContent);
+
+				            	})
+				            }
+				        });
+		        });
+		    });
+		  </script>
+		
+</body>
+</html>
